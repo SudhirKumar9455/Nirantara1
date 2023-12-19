@@ -1,0 +1,8 @@
+.custom-table tbody tr:nth-child(even) {
+    background-color: #65c109;
+  }
+
+  .even-row {
+    background-color: #74b236;
+  }
+  
