@@ -11,8 +11,8 @@ const Header = () => {
       <nav
         className="navbar navbar-light"
         style={{
-          marginTop: "5%",
-          marginBottom: "10%",
+          marginTop: "3%",
+          marginBottom: "5%",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",

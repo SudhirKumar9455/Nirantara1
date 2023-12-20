@@ -119,7 +119,7 @@ const LoginPage = () => {
             required
           />
           <br />
-          <Link to={'/locationmaster'}>
+          <Link to={'/Dashboard'}>
           <button
           
             type="submit"

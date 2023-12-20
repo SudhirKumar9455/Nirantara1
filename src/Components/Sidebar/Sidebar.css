@@ -29,6 +29,11 @@
     padding: 10px;
     cursor: pointer;
   }
+
+  .active {
+    background-color: #DFEDD1;
+    border-radius: 5%;
+  }
   
   li:hover {
     background-color: #DFEDD1;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import nirantara from "../../utils/nirantaralogo.png";
 import dashboardlogo from "../../utils/dashboardlogo.png";
@@ -15,6 +15,7 @@ import arrowright from "../../utils/arrowright.png";
 
 // const Sidebar = ({ setActiveButton }) => {
 const Sidebar = ({ setActiveButton }) => {
+  const lc = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const buttons = [
@@ -52,7 +53,6 @@ const Sidebar = ({ setActiveButton }) => {
   ];
 
   const handleButtonClick = (index) => {
-    // setActiveButton(index);
     setIsSidebarOpen(false);
   };
 
@@ -76,7 +76,10 @@ const Sidebar = ({ setActiveButton }) => {
             onClick={() => handleButtonClick(index)}
             key={index}
           >
-            <li style={{ display: "flex", alignItems: "center" }}>
+            <li
+              style={{ display: "flex", alignItems: "center" }}
+              className={lc.pathname === routes[index] ? "active" : ""}
+            >
               <img
                 src={images[index]}
                 alt="Nirantara Logo"

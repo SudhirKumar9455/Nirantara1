@@ -1,100 +1,227 @@
 import React, { useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Header from "../../Components/Header/Header";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
 
 const LocationMasterForm = () => {
   const [locationId, setLocationId] = useState("");
   const [locationName, setLocationName] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const [latitude, setLatitude] = useState("");
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    latitude: "",
+    longitude: "",
+  });
+
+  const handleSelect = async (selectedAddress) => {
+    try {
+      const results = await geocodeByAddress(selectedAddress);
+      const latLng = await getLatLng(results[0]);
+
+      setAddress(selectedAddress);
+
+      // Extract additional information like locationName and locationId from the geocoding results
+      const additionalInfo = extractAdditionalInfo(results[0]);
+
+      setCoordinates({
+        latitude: latLng.lat,
+        longitude: latLng.lng,
+      });
+
+      setLocationName(additionalInfo.locationName);
+      setLocationId(additionalInfo.locationId);
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+    }
+  };
+
+  // Helper function to extract additional information from geocoding results
+  const extractAdditionalInfo = (geocodingResult) => {
+    // Customize this based on the structure of the geocoding results
+    const locationName =
+      geocodingResult?.address_components
+        ?.filter((component) => component.types.includes("route"))
+        .map((component) => component.long_name)
+        .join(" ") || "";
+
+    const locationId = generateLocationId(locationName);
+    return {
+      locationName,
+      locationId,
+    };
+  };
+
+  // Helper function to generate locationId from locationName
+  const generateLocationId = (name) => {
+    // Replace spaces with underscores and convert to uppercase
+    // const formattedName = name.replace(/\s+/g, "_").toUpperCase();
+    // Concatenate "LOC" with a sequential number (starting from 101)
+    const sequentialNumber = Math.floor(Math.random() * 900) + 101;
+    return `LOC${sequentialNumber}`;
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission, e.g., send data to the server
     console.log("Location ID:", locationId);
     console.log("Location Name:", locationName);
-    console.log("Longitude:", longitude);
-    console.log("Latitude:", latitude);
-  };
-
-  const containerStyle = {
-    display: "flex",
-  };
-
-  const tableStyle = {
-    width: "80%",
+    console.log("Address:", address);
+    console.log("Latitude:", coordinates.latitude);
+    console.log("Longitude:", coordinates.longitude);
   };
   return (
-    <div style={containerStyle}>
-      <div>
-        <Sidebar />
-      </div>
-      <div style={{width:'70%'}}>
-        <Header/>
-      <div
-        style={{
-            tableStyle,
-          border: "1px solid #ccc",
-          padding: "20px",
-          borderRadius: "10px",
-          width: "450px",
-          margin: "0 auto",
-          height:"300px",
-          marginTop:'200px',
-          backgroundColor:'white'
-        }}
-      >
-        <h2>Location Master</h2>
-        <form onSubmit={handleSubmit}>
-          <div style={{ display: "flex", marginBottom: "10px" }}>
-            <div style={{ marginRight: "10px" }}>
-              <label htmlFor="locationId">Location ID:</label>
-              <input
-                type="text"
-                id="locationId"
-                value={locationId}
-                onChange={(e) => setLocationId(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="locationName">Location Name:</label>
-              <input
-                type="text"
-                id="locationName"
-                value={locationName}
-                onChange={(e) => setLocationName(e.target.value)}
-                required
-              />
+    <div>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <div style={{ width: "20%" }}>
+          <Sidebar />
+        </div>
+        <div style={{ width: "70%" }}>
+          <Header />
+          <div></div>
+          <div>
+            <h2 style={{fontWeight:'600', fontSize:'30px', height:'38px', color:"#4B465C"}}>Location Master</h2>
+            <div
+              style={{
+                padding: "20px 30px 20px 30px",
+                borderRadius: "10px",
+                width: "650px",
+                margin: 'none',
+                height: "309px",
+                marginTop: "50px",
+                backgroundColor: "white",
+              }}
+            >
+              <form onSubmit={handleSubmit}>
+                
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      
+                      width: "100%",
+                      marginTop: "5%",
+                      marginBottom: "5%",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: 'column',
+                        
+                      }}
+                    >
+                      <label htmlFor="locationId">Location ID</label>
+                      <input
+                        type="text"
+                        placeholder="Location Master"
+                        id="locationId"
+                        value={locationId}
+                        onChange={(e) => setLocationId(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div
+                      className="Addressbutton"
+                      style={{ marginBottom: "10px", display:'flex', flexDirection:'column' }}
+                    >
+                      <label htmlFor="address">Location Name</label>
+                      <PlacesAutocomplete
+                        value={address}
+                        onChange={setAddress}
+                        onSelect={handleSelect}
+                      >
+                        {({
+                          getInputProps,
+                          suggestions,
+                          getSuggestionItemProps,
+                          loading,
+                        }) => (
+                          <div>
+                            <input
+                              {...getInputProps({
+                                placeholder: "Enter your address",
+                                className: "location-search-input",
+                              })}
+                              required
+                            />
+                            <div className="autocomplete-dropdown-container">
+                              {loading && <div>Loading...</div>}
+                              {suggestions.map((suggestion) => {
+                                const style = {
+                                  backgroundColor: suggestion.active
+                                    ? "#41b6e6"
+                                    : "#fff",
+                                };
+                                return (
+                                  <div
+                                    {...getSuggestionItemProps(suggestion, {
+                                      style,
+                                    })}
+                                  >
+                                    {suggestion.description}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </PlacesAutocomplete>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
+                    <div style={{ marginBottom: "10px", display:'flex', flexDirection:'column' }}>
+                      <label htmlFor="latitude">Latitude</label>
+                      <input
+                        type="text"
+                        id="latitude"
+                        value={coordinates.latitude}
+                        placeholder="Latitude"
+                        readOnly
+                      />
+                    </div>
+                    <div style={{ marginBottom: "10px" , display:'flex', flexDirection:'column'}}>
+                      <label htmlFor="longitude">Longitude</label>
+                      <input
+                        type="text"
+                        id="longitude"
+                        value={coordinates.longitude}
+                        placeholder="Longitude"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ textAlign: "center"}}>
+                    <button
+                      style={{
+                        color: "white",
+                        backgroundColor: "black",
+                        width: "280px",
+                        padding:'7px 45px 7px 45px',
+                        height:'53px',
+                        borderRadius: "5px",
+                        textAlign: "center",
+                        marginTop:'5%'
+                      }}
+                      type="submit"
+                    >
+                      <h5><b>Submit</b></h5>
+                    </button>
+                  </div>
+              </form>
             </div>
           </div>
-          <div style={{ display: "flex", marginBottom: "10px" }}>
-            <div style={{ marginRight: "10px" }}>
-              <label htmlFor="longitude">Longitude:</label>
-              <input
-                type="text"
-                id="longitude"
-                value={longitude}
-                onChange={(e) => setLongitude(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="latitude">Latitude:</label>
-              <input
-                type="text"
-                id="latitude"
-                value={latitude}
-                onChange={(e) => setLatitude(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-          <div style={{textAlign:'center', marginTop:'5%'}}>
-            <button style={{color:'white', backgroundColor:'black', width:'200px', borderRadius:'5px', textAlign:'center'}} type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
+        </div>
       </div>
     </div>
   );
