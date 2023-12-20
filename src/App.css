@@ -1,17 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
@@ -24,15 +10,164 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.container{
+  display:flex;
+  flex-direction:column; 
+}
+/* Dashboard 3rd Container*/
+.topcontainer{
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  border: 1px solid black;
+  justify-content: space-evenly;
+  margin-bottom: 15px;
+}
+.topcontainer1{
+  height: 300px;
+  border: 1px solid black;
+  width: 100%;
+}
+.topcontainer2{
+  height: 300px;
+  border: 1px solid black;
+  width: 100%;
+}
+.topcontainer3{
+  height: 300px;
+  border: 1px solid black;
+  width: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.bottomcontainer {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  width: 100%;
+  height: 250px;
+  
+};
+.bottomcontainer1{
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  width: 50%;
+  height: 100%;
+}
+.bottomcontainer2{
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  width: 50%;
+  height: 100%;
+}
+.container1{
+  display: flex;
+  height: 150px;
+  width: 400px;
+  flex-direction: row;
+  justify-content:space-evenly;
+}
+.container2{
+  display: flex;
+  height: 150px;
+  width: 400px;
+  flex-direction: row;
+  justify-content:space-evenly;
+  
+}
+.topcontainerSmaller1{
+  display: flex;
+  height: 130px;
+  width: 160px;
+  flex-direction: column;
+  background-color: #fff;
+  
+}
+.topcontainerSmaller2{
+  display: flex;
+  height: 130px;
+  width: 160px;
+  flex-direction: column;
+  background-color: #fff;
+  
+}
+.topcontainerSmaller3{
+  display: flex;
+  height: 130px;
+  width: 160px;
+  flex-direction: column;
+  background-color: #fff;
+  
+}
+.topcontainerSmaller4{
+  display: flex;
+  height: 130px;
+  width: 160px;
+  flex-direction: column;
+  background-color: #fff;
+}
+.smalltopcontainer2col1{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.smalltopcontainer2col2{
+  display:flex;
+  flex-direction: row;
+}
+.smalltopcontainer2col3{
+  display:flex;
+  flex-direction: row;
+}
+.smalltopcontainer2col4{
+  display:flex;
+  flex-direction: row;
+}
+.smalltopcontainer2col1row2{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.smalltopcontainer2col3{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.smalltopcontainer2col4{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.topcontainer2{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.topcontainer1row1{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.topcontainer1row2{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.topcontainer1row3{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.topcontainer1{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.App-link {
+  color: #61dafb;
 }
