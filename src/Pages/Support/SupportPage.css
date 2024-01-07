@@ -1,0 +1,29 @@
+.Form-content{
+    font-family: 'Lora';
+    font-weight: 400;
+    font-size: 16px;
+    /* line-height: 24px; */
+}
+.categorysection{
+    font-family: 'Lora';
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* margin-top: "2%"; */
+}
+.categoryheading{
+    font-family: 'Lora';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+.titleticket{
+    font-family: 'Lora';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
+.icons{
+    height: 31px;
+    width: 58px;
+}

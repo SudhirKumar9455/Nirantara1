@@ -1,36 +1,63 @@
 import React, { useState, useEffect } from "react";
+import { Navigate, useHistory, useNavigate } from "react-router-dom";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Header from "../../Components/Header/Header";
+// import Dropdown from "react-bootstrap/Dropdown";
+import saveFormData from "./saveFormData";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+// import { v4 as uuidv4 } from "uuid";
+const measurementData = [
+  // "Gallon",
+  "Litres",
+  // "Imperial Gallon",
+  "Barrel",
+  "Cubic Meters",
+  "Cubic Foot",
+  "Kiloliters",
+  "Megajoule(MG)",
+  "Watt",
+];
 
 const AddNewFuelType = () => {
-  const [fuelId, setFuelId] = useState("");
+  // const history = useHistory();
+  const Navigate = useNavigate();
+  const generateRandom4DigitNumber = () => {
+    return `FUL${Math.floor(Math.random() * 900) + 101}`;
+  };
+
+  const [selectedMeasurement, setSelectedMeasurement] = useState("");
+
+  const handleMeasurementSelect = (measurement) => {
+    setSelectedMeasurement(measurement);
+    setMeasurementType(measurement);
+  };
+
+  const [fuelId, setFuelId] = useState(generateRandom4DigitNumber());
   const [fuelType, setFuelType] = useState("");
   const [measurementType, setMeasurementType] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
-        const data = await response.json();
+  const handleClickSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    // handleSubmit(e); // Call the handleSubmit function
+    console.log(fuelId);
+    console.log(fuelType);
+    console.log(measurementType);
 
-        // Assuming the API response has properties like userId, title, and body
-        setFuelId(data.userId || "");
-        setFuelType(data.title || "");
-        setMeasurementType(data.body || "");
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission, e.g., send data to the server
-    console.log("Fuel ID:", fuelId);
-    console.log("Fuel Type:", fuelType);
-    console.log("Measurement Type:", measurementType);
+    saveFormData({
+      fuelID: fuelId,
+      fuelType: fuelType,
+      Measurement: measurementType,
+    });
+    // alert("Data saved");
+    // window.history.back();
+    Navigate("/fuelmaster");
   };
 
   const containerStyle = {
@@ -42,13 +69,13 @@ const AddNewFuelType = () => {
   };
 
   const formStyle = {
-    border: "1px solid #ccc",
-    padding: "20px",
+    // border: "1px solid black",
+    padding: "10px",
     borderRadius: "10px",
-    width: "450px",
-    margin: "0 auto",
-    height: "300px",
-    marginTop: "200px",
+    width: "684px",
+    margin: "none",
+    height: "313px",
+    backgroundColor: "white",
   };
 
   return (
@@ -58,11 +85,11 @@ const AddNewFuelType = () => {
       </div>
       <div style={{ width: "70%" }}>
         <Header />
+        <h2>Fuel Master</h2>
         <div style={formStyle}>
-          <h2>Fuel Master</h2>
-          <form onSubmit={handleSubmit}>
-            <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{ marginRight: "10px" }}>
+          <form>
+            <div style={{ display: "flex", flexDirection:'row' }}>
+              {/* <div style={{ marginRight: "10px" }}>
                 <label htmlFor="fuelId">Fuel ID</label>
                 <input
                   type="text"
@@ -71,37 +98,157 @@ const AddNewFuelType = () => {
                   onChange={(e) => setFuelId(e.target.value)}
                   required
                 />
+              </div> */}
+              <div style={{ width:'100%' }}>
+                <InputLabel id="fuelID">Fuel ID</InputLabel>
+                <TextField
+                sx={{width:'300px', height:'39px'}}
+                  id="fuelId"
+                  // label="Fuel ID"
+                  value={fuelId}
+                  onChange={(e) => setFuelId(e.target.value)}
+                  required
+                />
               </div>
-              <div>
+              {/* <div style={{ marginRight: "10px" }}>
                 <label htmlFor="fuelType">Fuel Type</label>
-                <input
-                  type="text"
+                <select
                   id="fuelType"
                   value={fuelType}
                   onChange={(e) => setFuelType(e.target.value)}
                   required
-                />
+                >
+                  <option value="Select">Select Fuel Type</option>
+                  <option value="petrol">Petrol</option>
+                  <option value="diesel">Diesel</option>
+                  <option value="hydrogen">Hydrogen</option>
+                  <option value="electric">Electric</option>
+                </select>
+              </div> */}
+              {/* <div style={{ marginRight: "40px" }}> */}
+              {/* <label htmlFor="fuelType">Fuel Type</label>
+              <FormControl style={{ width: "250px" }}>
+                <InputLabel id="fuelType-label">Fuel Type</InputLabel>
+                <Select
+                  labelId="fuelType-label"
+                  id="fuelType"
+                  value={fuelType}
+                  onChange={(e) => setFuelType(e.target.value)}
+                  required
+                >
+                  <MenuItem value="Select">Select Fuel Type</MenuItem>
+                  <MenuItem value="petrol">Petrol</MenuItem>
+                  <MenuItem value="diesel">Diesel</MenuItem>
+                  <MenuItem value="hydrogen">Hydrogen</MenuItem>
+                  <MenuItem value="electric">Electric</MenuItem>
+                </Select>
+              </FormControl> */}
+              <div style={{width:'100%'}}>
+                <InputLabel id="fuelType">Fuel Type</InputLabel>
+                <FormControl style={{ width: "300px", height:'39px' }}>
+                  {/* <InputLabel id="fuelType-label">Fuel Type</InputLabel> */}
+                  <Select
+                    labelId="fuelType-label"
+                    id="fuelType"
+                    value={fuelType}
+                    onChange={(e) => setFuelType(e.target.value)}
+                    required
+                  >
+                    <MenuItem value="">Select Fuel Type</MenuItem>
+                    <MenuItem value="petrol">Petrol</MenuItem>
+                    <MenuItem value="diesel">Diesel</MenuItem>
+                    <MenuItem value="hydrogen">Hydrogen</MenuItem>
+                    <MenuItem value="electric">Electric</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
+              {/* </div> */}
             </div>
-            <div style={{ display: "flex", marginBottom: "10px" }}>
-              <div style={{ marginRight: "10px" }}>
+            {/* <div style={{ display: "flex" }}>
+              <div style={{ marginTop: "25px", marginBottom: "25px" }}>
                 <label htmlFor="measurementType">Measurement Type</label>
                 <br />
-                <input
-                  type="text"
-                  id="measurementType"
-                  value={measurementType}
-                  onChange={(e) => setMeasurementType(e.target.value)}
-                  required
-                />
+                <select
+                  value={selectedMeasurement}
+                  onChange={(e) => handleMeasurementSelect(e.target.value)}
+                >
+                  <option value="">Measurement</option>
+                  {measurementData.map((measurement, index) => (
+                    <option key={index} value={measurement}>
+                      {measurement}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <button
-                style={{ color: "white", backgroundColor: "black" }}
-                type="submit"
+            </div> */}
+            {/* <div style={{ display: "flex" }}>
+              {/* <div style={{ marginRight: "10px" }}> */}
+            {/* <label htmlFor="measurementType">Measurement Type</label>
+            <FormControl style={{ width: "250px" }}>
+              <InputLabel id="measurementType-label">
+                <Typography>Measurement Type</Typography>
+              </InputLabel>
+              <Select
+                labelId="measurementType-label"
+                id="measurementType"
+                value={selectedMeasurement}
+                onChange={(e) => handleMeasurementSelect(e.target.value)}
+                required
               >
-                Submit
+                <MenuItem value="">Select Measurement Type</MenuItem>
+                {measurementData.map((measurement, index) => (
+                  <MenuItem key={index} value={measurement}>
+                    {measurement}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl> */}
+            <div style={{justifyContent:'left', marginTop:'10%'}}>
+              {/* <label htmlFor="measurementType">Measurement Type</label> */}
+              <label htmlFor="fuelType">Measurement Type</label><br/>
+              <FormControl style={{ width: "300px", height:'39px' }}>
+                
+                <Select
+                  // labelId="measurementType-label"
+                  id="measurementType"
+                  value={selectedMeasurement}
+                  onChange={(e) => handleMeasurementSelect(e.target.value)}
+                  required
+                >
+                  <MenuItem value="">Select Measurement Type</MenuItem>
+                  {measurementData.map((measurement, index) => (
+                    <MenuItem key={index} value={measurement}>
+                      {measurement}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+            {/* </div> */}
+            {/* </div> */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "7%",
+              }}
+            >
+              <button
+                style={{
+                  color: "white",
+                  backgroundColor: "black",
+                  width: "280px",
+                  padding: "7px 30px 7px 30px",
+                  height: "40px",
+                  borderRadius: "5px",
+                  textAlign: "center",
+                }}
+                // type="submit"
+                onClick={handleClickSubmit} // Add onClick handler here
+              >
+                <h5>
+                  <b>Submit</b>
+                </h5>
               </button>
             </div>
           </form>

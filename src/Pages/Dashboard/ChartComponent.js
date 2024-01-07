@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import HCV from "../../utils/Group 33.png";
 import LCV from "../../utils/Group 33 (1).png";
 import MCV from "../../utils/Group 33 (2).png";
 import EV from "../../utils/EV.png";
+import Dropdown from "react-bootstrap/Dropdown";
 
 import {
   BarChart,
@@ -17,6 +18,7 @@ import {
   RadialBar,
   Label,
 } from "recharts";
+import CircularProgressBar from "../../Components/ProgressBar/Progressbar";
 // import { Tooltip } from "chart.js";
 const ChartComponent = () => {
   const data = [
@@ -90,8 +92,13 @@ const ChartComponent = () => {
       fill: "white",
     },
   ];
+  const [selectedOption, setSelectedOption] = useState(""); // State to keep track of the selected option
+
+  const handleSelect = (eventKey) => {
+    setSelectedOption(eventKey); // Update the state with the selected option
+  };
   return (
-    <div >
+    <div>
       <text>
         <h3>
           <b>Dashbaord Overview</b>
@@ -99,8 +106,7 @@ const ChartComponent = () => {
       </text>
       <text className="Heading">
         <h7>
-          Lörem ipsum diasion multibons, och hide pasesa iling. Grindsamhälle
-          lanar, hässa. Spegon ultravis.
+          Using the matrix and analytics of your organisation's audit.
         </h7>
       </text>
       <div className="container">
@@ -149,6 +155,7 @@ const ChartComponent = () => {
                     }
                   />
                 </RadialBarChart>
+                {/* <CircularProgressBar/> */}
               </div>
             </div>
             <div className="topcontainer1row3">
@@ -169,7 +176,36 @@ const ChartComponent = () => {
                   </div>
                 </div>
                 <div className="Measurementdropdown">
-                  <button className="Dropdown">Measurement</button>
+                  <Dropdown onSelect={handleSelect}>
+                    <Dropdown.Toggle variant="outlined" id="dropdown-basic">
+                      Measurement
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item eventKey="Gallon">Gallon</Dropdown.Item>
+                      <Dropdown.Item eventKey="Litres">Litres</Dropdown.Item>
+                      <Dropdown.Item eventKey="Imperial Gallon">
+                        Imperial Gallon
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Barrel">Barrel</Dropdown.Item>
+                      <Dropdown.Item eventKey="Cubic Meters">
+                        Cubic Meters
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Cubic Foot">
+                        Cubic Foot
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kiloliters">
+                        Kiloliters
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Megajoule(MG)">
+                        Megajoule(MG)
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Gigajoule(GJ)">
+                        Gigajoule(GJ)
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  {selectedOption && <p>Selected Option: {selectedOption}</p>}
                 </div>
               </div>
             </div>
@@ -285,6 +321,7 @@ const ChartComponent = () => {
         </div>
         <div className="bottomcontainer">
           <div className="bottomcontainer1">
+            <div>Emission vs km run This Month vs Last Month</div>
             <BarChart width={500} height={250} data={data}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -296,6 +333,7 @@ const ChartComponent = () => {
             </BarChart>
           </div>
           <div className="bottomcontainer2">
+            <div>Emission by fuel Category</div>
             <ComposedChart width={500} height={250} data={data2}>
               <XAxis dataKey="name" />
               <YAxis />

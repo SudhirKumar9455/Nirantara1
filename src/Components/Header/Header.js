@@ -1,5 +1,5 @@
 import React from "react";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import avatar from "../../utils/Avatar.png";
 import LanguageIcon from "@mui/icons-material/Language";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
@@ -12,7 +12,7 @@ const Header = () => {
         className="navbar navbar-light"
         style={{
           marginTop: "3%",
-          marginBottom: "5%",
+          marginBottom: "3%",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
@@ -22,24 +22,25 @@ const Header = () => {
           borderRadius: "10px",
         }}
       >
-        <form className="container-fluid" style={{ width: "87%", margin: "0" }}>
+        <form className="container-fluid" style={{ width: "90%", margin: "0" }}>
           <div className="input-group" style={{ position: "relative" }}>
-          <div>
-            
-          </div>
-          <SearchIcon/>
-            <input
-              className="form-control"
-              placeholder="Search( Ctrl + / )"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-              style={{
-                paddingLeft: "10px",
-                resize: "none",
-                border: "none",
-                borderRadius: "5px",
-              }}
-            ></input>
+            <div>
+              <SearchIcon />
+            </div>
+            <div>
+              <input
+                className="form-control"
+                placeholder="Search( Ctrl + / )"
+                // aria-label="Username"
+                aria-describedby="basic-addon1"
+                style={{
+                  paddingLeft: "10px",
+                  resize: "none",
+                  border: "none",
+                  borderRadius: "5px",
+                }}
+              ></input>
+            </div>
           </div>
         </form>
         <LanguageIcon />

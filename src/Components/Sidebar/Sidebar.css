@@ -45,22 +45,29 @@
     padding: 20px;
   }
   /* Add styles for small screens (hamburger menu) */
-  @media (max-width: 768px) {
-    .sidebar {
-      width: 80px;
+  .sidebar {
+    /* Existing styles */
+  
+    @media screen and (max-width: 768px) {
+      width: 80px; /* Adjust the width for the collapsed sidebar */
+      overflow: hidden;
     }
   
-    .sidebar ul {
-      display: none;
-      flex-direction: column;
-      width: 100%; /* Ensure full width */
-    }
+    @media screen and (max-width: 768px) {
+      .logo img {
+        display: none; /* Hide the logo on smaller screens */
+      }
   
-    .sidebar.open {
-      width: 250px;
-    }
+      ul {
+        display: none; /* Hide the list items by default on smaller screens */
+      }
   
-    .sidebar.open ul {
-      display: flex;
+      &.open {
+        width: 250px; /* Adjust the width for the expanded sidebar */
+      }
+  
+      &.open ul {
+        display: block; /* Show the list items when the sidebar is open */
+      }
     }
   }

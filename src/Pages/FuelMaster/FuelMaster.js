@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar"; // Assuming the correct path to your Table component
 import FuelTable from "./FuelTable";
 import Header from "../../Components/Header/Header";
+import axios from "axios";
 
 const FuelMaster = () => {
+  const [data, setData] = useState([]);
   const containerStyle = {
     display: "flex",
   };
@@ -16,6 +18,21 @@ const FuelMaster = () => {
     width: "70%",
   };
 
+  useEffect(() => {
+    const get_data = async () => {
+      await axios
+        .get("http://localhost:5000/api/fuels")
+        .then((response) => {
+          console.log("fueldata", response);
+          setData(response.data);
+        })
+        .catch((error) => {
+          console.error("Axios Error:", error);
+        });
+    };
+    get_data();
+  }, []);
+
   return (
     <div style={containerStyle}>
       <div style={sidebarStyle}>
@@ -23,7 +40,7 @@ const FuelMaster = () => {
       </div>
       <div style={tableStyle}>
         <Header />
-        <FuelTable />
+        <FuelTable data={data} />
       </div>
     </div>
   );

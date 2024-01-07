@@ -1,61 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 
-const VehicleMasterTable = () => {
+const VehicleMasterTable = ({ data }) => {
+  if (!Array.isArray(data)) {
+    return null; // or display an error message
+  }
   // Sample data for testing
-
-  const vehicleData = [
-    {
-      id: 1,
-      type: "Car",
-      make: "Toyota",
-      model: "Camry",
-      year: 2022,
-      lastService: "2022-12-01",
-    },
-    {
-      id: 2,
-      type: "Truck",
-      make: "Ford",
-      model: "F-150",
-      year: 2021,
-      lastService: "2022-01-15",
-    },
-    {
-      id: 3,
-      type: "Motorcycle",
-      make: "Harley-Davidson",
-      model: "Sportster",
-      year: 2020,
-      lastService: "2022-11-05",
-    },
-    {
-      id: 4,
-      type: "Car",
-      make: "Toyota",
-      model: "Camry",
-      year: 2022,
-      lastService: "2022-12-01",
-    },
-    {
-      id: 5,
-      type: "Truck",
-      make: "Ford",
-      model: "F-150",
-      year: 2021,
-      lastService: "2022-01-15",
-    },
-    {
-      id: 6,
-      type: "Motorcycle",
-      make: "Harley-Davidson",
-      model: "Sportster",
-      year: 2020,
-      lastService: "2022-11-05",
-    },
-  ];
-
+  console.log("vehdata", data);
   return (
     <div>
       <div
@@ -65,7 +17,7 @@ const VehicleMasterTable = () => {
           justifyContent: "space-between",
         }}
       >
-        <div>
+        <div className="table-heading">
           <h2>Vehicle Master</h2>
         </div>
         <div>
@@ -87,10 +39,10 @@ const VehicleMasterTable = () => {
           </Link>
         </div>
       </div>
-      <table className="table table-striped ">
+      <table className="styled-table">
         <thead>
           <tr>
-            <th scope="col">Vehicle Id</th>
+            <th scope="col">Vehicle ID</th>
             <th scope="col">Type</th>
             <th scope="col">Make</th>
             <th scope="col">Model</th>
@@ -99,17 +51,17 @@ const VehicleMasterTable = () => {
           </tr>
         </thead>
         <tbody>
-          {vehicleData.map((vehicle, index) => (
+          {data.map((vehicleData, index) => (
             <tr
-              key={vehicle.id}
-              className={index % 2 === 0 ? 'green':'white'}
+              key={vehicleData.id}
+              className={index % 2 === 0 ? "even-row" : "odd-row"}
             >
-              <th scope="row">{vehicle.id}</th>
-              <td>{vehicle.type}</td>
-              <td>{vehicle.make}</td>
-              <td>{vehicle.model}</td>
-              <td>{vehicle.year}</td>
-              <td>{vehicle.lastService}</td>
+              <th scope="row">{vehicleData.vehicleID}</th>
+              <td>{vehicleData.vehicleType}</td>
+              <td>{vehicleData.vehicleMake}</td>
+              <td>{vehicleData.vehicleModel}</td>
+              <td>{vehicleData.vehicleYear}</td>
+              <td>{vehicleData.lastService}</td>
             </tr>
           ))}
         </tbody>

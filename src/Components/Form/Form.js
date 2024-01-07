@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+// import {BsFillShieldLockFill} from "react-icons/bs"
 import styled from "styled-components";
-import axios from 'axios';
-import nirantaraposter from '../../utils/nirantaralogo.png';
+import axios from "axios";
+import nirantaraposter from "../../utils/nirantaralogo.png";
 import { Link } from "react-router-dom";
+import "react-phone-input-2/lib/material.css";
+import OTPInput, { ResendOTP } from "otp-input-react";
+import { Button, TextField } from "@mui/material";
+import {BsFillShieldLockFill} from "react-icons/bs"
+// import OtpInput from "otp-input-react"
 // import Sidebar from "../Sidebar/Sidebar";
 
 const LoginPageContainer = styled.div`
   display: flex;
   height: 100vh;
   flex-direction: column; /* Change the direction on smaller screens */
-  
+
   @media (min-width: 900px) {
     flex-direction: row; /* Revert to the original direction on larger screens */
   }
@@ -41,31 +47,36 @@ const LoginForm = styled.form`
 const LoginPage = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [otp, setOtp] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [OTP, setOTP] = useState("");
 
   const handleLogin = (e) => {
-    if(!isNaN(mobileNumber) && !isNaN(otp)){
     e.preventDefault();
-    console.log("Logging in with:", { mobileNumber, otp });
-    axios
-      .post("your-api-endpoint", { mobileNumber, otp })
-      .then((response) => {
-        console.log("Login successful:", response.data);
-        // Add your logic for successful login
-      })
-      .catch((error) => {
-        console.error("Login failed:", error);
-        // Add your logic for failed login
-        alert("Data Saved!");
-      });
-    }else{
-        alert("Only Numbers are allowed as input")
+
+    if (!isNaN(mobileNumber) && !isNaN(otp)) {
+      console.log("Logging in with:", { mobileNumber, otp });
+      axios
+        .post("your-api-endpoint", { mobileNumber, otp })
+        .then((response) => {
+          console.log("Login successful:", response.data);
+          // Add your logic for successful login
+        })
+        .catch((error) => {
+          console.error("Login failed:", error);
+          // Add your logic for failed login
+          alert("Data Saved!");
+        });
+    } else {
+      alert("Only Numbers are allowed as input");
     }
   };
+  useEffect(() => {
+    setIsFormValid(!!mobileNumber && !!otp);
+  }, [mobileNumber, otp]);
 
   return (
-    
     <LoginPageContainer>
-    <NirantaraContainer style={{ backgroundColor: "#DFEDD1" }}>
+      <NirantaraContainer style={{ backgroundColor: "#DFEDD1" }}>
         {/* Add your Nirantara poster here */}
         <img
           src={nirantaraposter}
@@ -73,7 +84,7 @@ const LoginPage = () => {
           alt="Nirantara Poster"
         />
       </NirantaraContainer>
-      
+
       <LoginContainer>
         <LoginForm onSubmit={handleLogin}>
           <h2 style={{ marginTop: "5%" }}>Account Login</h2>
@@ -87,7 +98,7 @@ const LoginPage = () => {
             Mobile Number
           </label>
           <br />
-          <input
+          <TextField
             style={{
               marginTop: "10px",
               marginBottom: "10px",
@@ -96,6 +107,7 @@ const LoginPage = () => {
             }}
             type="tel"
             id="mobileNumber"
+            placeholder="Enter Your Mobile Number"
             value={mobileNumber}
             onChange={(e) => setMobileNumber(e.target.value)}
             required
@@ -105,34 +117,63 @@ const LoginPage = () => {
             OTP
           </label>
           <br />
-          <input
+          <TextField
             style={{
               marginTop: "10px",
-              marginBottom: "60px",
+              marginBottom: "50px",
               width: "100%",
               boxSizing: "border-box",
             }}
             type="text"
+            placeholder="Enter the OTP"
             id="otp"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
             required
           />
           <br />
-          <Link to={'/Dashboard'}>
-          <button
-          
-            type="submit"
+          <Link to="/Dashboard">
+            <Button
+              type="submit"
+              style={{
+                width: "100%",
+                backgroundColor: "black",
+                color: "white",
+                borderRadius: "5px",
+              }}
+              disabled={!isFormValid} // Disable the Button if the form is not valid
+            >
+              Login
+            </Button>
+          </Link>
+          <div
             style={{
-              width: "100%",
-              backgroundColor: "black",
-              color: "white",
-              borderRadius: "5%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "right",
+              marginTop: "5px",
             }}
           >
-            Login
-          </button>
-          </Link>
+            {/* <Button>
+              <>
+                <OTPInput
+                  value={OTP}
+                  onChange={setOTP}
+                  autoFocus
+                  OTPLength={6}
+                  otpType="number"
+                  disabled={false}
+                  secure
+                />
+                <ResendOTP
+                  onResendClick={() => console.log("Resend clicked")}
+                />
+              </>
+            </Button> */}
+            <Button>
+              Resend OTP
+            </Button>
+          </div>
         </LoginForm>
       </LoginContainer>
     </LoginPageContainer>

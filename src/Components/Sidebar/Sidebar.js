@@ -35,10 +35,10 @@ const Sidebar = ({ setActiveButton }) => {
     "/locationmaster",
     "/VehicleMaster",
     "/fuelmaster",
-    "/co2",
-    "/permission",
-    "/support",
-    "/documentation",
+    "/co2calculatorpage",
+    "/rollsandpermission",
+    "/SupportPage",
+    "/Documentation"
   ];
   const images = [
     dashboardlogo,

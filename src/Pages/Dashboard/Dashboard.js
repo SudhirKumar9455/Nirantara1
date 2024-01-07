@@ -9,7 +9,7 @@ const Dashboard = () => {
     width: "20%",
   };
   const headerStyle ={
-    width:'70%',
+    width:'75%',
   }
   return (
     <div style={{display:'flex', flexDirection:'row'}}>
